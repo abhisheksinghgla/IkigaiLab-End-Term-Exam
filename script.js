@@ -1,7 +1,6 @@
-
 //making object of weatherapi
 const weatherApi = {
-    key: 'cc2f28e0e398db266a4bd5bf4c2d186c',
+    key: 'fb7c275e50cee695f0e59d9a2daf0872',
     baseUrl: 'https://api.openweathermap.org/data/2.5/weather'
 }
 
@@ -12,7 +11,7 @@ searchInputBox.addEventListener('keypress', (event) => {
     if (event.keyCode == 13) {
         // console.log(searchInputBox.value);
         getWeatherReport(searchInputBox.value);
-        
+
     }
 })
 
@@ -20,35 +19,34 @@ searchInputBox.addEventListener('keypress', (event) => {
 //get waether report
 
 function getWeatherReport(city) {
-    fetch(`${weatherApi.baseUrl}?q=${city}&appid=${weatherApi.key}&units=metric`)  // fetch method fetching the data from  base url ...metric is used for unit in celcius......here i am appending the base url to get data by city name .  
-        .then(weather => {   //weather is from api
+    fetch(`${weatherApi.baseUrl}?q=${city}&appid=${weatherApi.key}&units=metric`) // fetch method fetching the data from  base url ...metric is used for unit in celcius......here i am appending the base url to get data by city name .  
+        .then(weather => { //weather is from api
             return weather.json(); // return data from api in JSON
-        }).then(showWeaterReport);  // calling showweatherreport function
+        }).then(showWeaterReport); // calling showweatherreport function
 
 }
 
 //show weather report
 
 function showWeaterReport(weather) {
-    let city_code=weather.cod;
-    if(city_code==='400'){ 
+    let city_code = weather.cod;
+    if (city_code === '400') {
         swal("Empty Input", "Please enter any city", "error");
         reset();
-    }else if(city_code==='404'){
+    } else if (city_code === '404') {
         swal("Bad Input", "entered city didn't matched", "warning");
         reset();
-    }
-    else{
+    } else {
 
-    // console.log(weather.cod);
-    // console.log(weather);  
-    let op = document.getElementById('weather-body');
-    op.style.display = 'block';
-    let todayDate = new Date();
-    let parent=document.getElementById('parent');
-    let weather_body = document.getElementById('weather-body');
-    weather_body.innerHTML =
-        `
+        // console.log(weather.cod);
+        // console.log(weather);  
+        let op = document.getElementById('weather-body');
+        op.style.display = 'block';
+        let todayDate = new Date();
+        let parent = document.getElementById('parent');
+        let weather_body = document.getElementById('weather-body');
+        weather_body.innerHTML =
+            `
     <div class="location-deatils">
         <div class="city" id="city">${weather.name}, ${weather.sys.country}</div>
         <div class="date" id="date"> ${dateManage(todayDate)}</div>
@@ -64,9 +62,9 @@ function showWeaterReport(weather) {
         <div class="basic">Feels like ${weather.main.feels_like}&deg;C | Humidity ${weather.main.humidity}%  <br> Pressure ${weather.main.pressure} mb | Wind ${weather.wind.speed} KMPH</div>
     </div>
     `;
-    parent.append(weather_body);
-    changeBg(weather.weather[0].main);
-    reset();
+        parent.append(weather_body);
+        changeBg(weather.weather[0].main);
+        reset();
     }
 }
 
@@ -75,8 +73,8 @@ function showWeaterReport(weather) {
 //making a function for the  last update current time 
 
 function getTime(todayDate) {
-    let hour =addZero(todayDate.getHours());
-    let minute =addZero(todayDate.getMinutes());
+    let hour = addZero(todayDate.getHours());
+    let minute = addZero(todayDate.getMinutes());
     return `${hour}:${minute}`;
 }
 
@@ -102,11 +100,9 @@ function changeBg(status) {
         document.body.style.backgroundImage = 'url(images/rainy.jpg)';
     } else if (status === 'Clear') {
         document.body.style.backgroundImage = 'url(images/clear.jpg)';
-    }
-    else if (status === 'Snow') {
+    } else if (status === 'Snow') {
         document.body.style.backgroundImage = 'url(images/snow.jpg)';
-    }
-    else if (status === 'Sunny') {
+    } else if (status === 'Sunny') {
         document.body.style.backgroundImage = 'url(images/sunny.jpg)';
     } else if (status === 'Thunderstorm') {
         document.body.style.backgroundImage = 'url(images/thunderstrom.jpg)';
@@ -114,9 +110,7 @@ function changeBg(status) {
         document.body.style.backgroundImage = 'url(images/drizzle.jpg)';
     } else if (status === 'Mist' || status === 'Haze' || status === 'Fog') {
         document.body.style.backgroundImage = 'url(images/mist.jpg)';
-    }
-
-    else {
+    } else {
         document.body.style.backgroundImage = 'url(img/bg.jpg)';
     }
 }
